@@ -4,21 +4,9 @@
 `Contact:   simon.hackl@uni-tuebingen.de`
 
 ---
-### **Usage**
-    python RecoverMI.py [-h] I O
-    
-    RecoverMI: Fix and recover equally well multi-mapped read information from .sam files.
-    
-    positional arguments:
-      I           The .sam file used as input. Has to be sorted with `samtools sort -n`
-      O           The output directory at which the fixed file shall be stored.
-    
-    optional arguments:
-      -h, --help  show this help message and exit
-
----
-
 ### **Description**
+`RecoverMI` is a `Python` script to fix/recover information about multi-mapped reads from [SAM](https://samtools.github.io/hts-specs/SAMv1.pdf) files. 
+
 `RecoverMI` expects a SAM format file, sorted by the read name (cf. QNAME field in SAM format), as input and will generate a SAM file with multi-mapped alignment information being recovered in return.
 
 To proceed successfully the input file should contain information about all found alignments, i.e. secondary alignments in SAM format, of the respective mapping tool.
@@ -31,6 +19,19 @@ While iterating over the file all alignments per read are collected and treated 
 - For all accepted SAs the secondary alignment bit in the bitwise flag is set to 0 and the mapping quality of the PA is copied.
 - The sequence and per-base quality records for the SAs are inferred from the respective PA record, based on the CIGAR string of the SA with respect to the orientation of the alignments. Finally, all collected accepted alignments are written to the output file.
 
+---
+### **Usage**
+    python RecoverMI.py [-h] I O
+    
+    RecoverMI: Fix and recover equally well multi-mapped read information from .sam files.
+    
+    positional arguments:
+      I           The .sam file used as input. Has to be sorted with `samtools sort -n`
+      O           The output directory at which the fixed file shall be stored.
+    
+    optional arguments:
+      -h, --help  show this help message and exit
+      
 ---
 ### **Performance**
 The script was implemented in the course of my master thesis `The OMPeome of Treponema pallidum` (at the University Tübingen) to allow variant calling in repeat regions. Thereby, samples with 10% to 80% of disregarded positions (in terms of variant calling) without `RecoverMI` being applied had below 1% disregarded positions after application.
